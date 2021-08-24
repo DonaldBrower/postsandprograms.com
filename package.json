@@ -1,0 +1,24 @@
+{
+  "name": "eleventy.postsandprograms.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "concurrently \"postcss css/style.css -w -u autoprefixer precss -o css/parsed.style.css\" \"npx @11ty/eleventy --serve\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^0.12.1",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^3.1.2",
+    "autoprefixer": "^10.3.2",
+    "concurrently": "^6.2.1",
+    "luxon": "^2.0.2",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
+    "precss": "^4.0.0"
+  },
+  "dependencies": {}
+}

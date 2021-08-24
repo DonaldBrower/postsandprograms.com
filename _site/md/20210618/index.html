@@ -1,0 +1,305 @@
+<h2>Answers to Problem Sets from JS: Hard Parts</h2>
+<p>Here is a review of the exercises and some of the concepts taught in the course <a href="#">JS: The Hard Parts</a> on frontend masters. The questions were created by someone at Codesmith, and the answers are ones that I wrote. The originals are on the web here, at <a href="https://csbin.io/async">csbin.io</a></p>
+<ul>
+<li><a href="#async">Async functions, callbacks, the callback queue</a></li>
+<li><a href="#scopeclosure">JS Scope, variable environments, and programming with closure</a></li>
+<li><a href="#promisesasync">Promises, deferring, the microtask queue</a></li>
+<li><a href="#objectsobjectorientedprogramming">Object prototypes, the class syntax</a></li>
+</ul>
+<h3>Asynchronous functions, higher order functions</h3>
+<p><a href="https://github.com/DonaldBrower/js-hardparts-solutions/tree/master/async">The solutions on GitHub</a></p>
+<p>What are asynchronous functions? In Javascript, you have an asyncronous function when you invoke a function that makes a call to code that is defined outside of the current execution context. Before explaing any further, let's take a look at an example</p>
+<pre><code>function makeAnAsyncCall(message) {
+  setTimeout(() =&gt; {
+    console.log(message);
+  }, 10000);
+}
+
+makeAnAsyncCall(&quot;This message is going to be logged out to the console in ten seconds, after all the code in the current execution context runs (even if it's more than ten seconds of code)&quot;);
+
+// ten+ seconds of syncronous code
+</code></pre>
+<p><code>makeAnAsyncCall</code> is calling a function <code>setTimeout</code> which is built into the JS environment. It's provided by the browser, or node. <code>setTimeout</code> is passed a function, and the integer 10000. Immediately upon <code>setTimeout</code> being called, the function passed into setTimeout is added to a queue that is being maintained in the JS engine. The integer 10000 that is passed into setTimeout is the amount of time the</p>
+<p>This is what we mean by asynchronous functions, but higher order functions are something different. Higher order functions are when our functions are defined to either take in other function definitions by argumement, or return function definitions from the function's execution.</p>
+<pre><code>function addByTwo(a) { return a + 2}
+function higherOrder(v, fx) { return fx(v); }
+higherOrder(2, addByTwo);
+</code></pre>
+<p>or:</p>
+<pre><code>function a() {
+  let counter = 0;
+  return function() {
+    counter++;
+    console.log(counter);
+  }
+}
+const counter a();
+counter();
+counter();
+counter();
+</code></pre>
+<hr>
+<h4>Key examples: Debounce</h4>
+<pre><code>function debounce(callback, interval) {
+  let timer,
+    readyToCall = true;
+
+  /**
+   *
+   * @returns callback(), or &quot;undefined&quot; depending on if interval ms have ellapsed since last call to debouncedFunction
+   */
+  function debouncedFunction() {
+    if (readyToCall) {
+      readyToCall = false;
+
+      timer = setTimeout(() =&gt; {
+        readyToCall = true;
+      }, interval);
+
+      return callback();
+    } else {
+      // when debouncedFunction is not ready to be called,the timer running from the previous call should be reset—making it &quot;debouced three seconds from every call&quot;, instead of &quot;debounded three seconds from every successful call&quot;
+      clearTimeout(timer);
+
+      timer = setTimeout(() =&gt; {
+        readyToCall = true;
+      }, interval);
+
+      return &quot;unsucessful&quot;;
+    }
+  }
+
+  return debouncedFunction;
+}
+
+function sayHi() {
+  return &quot;hi&quot;;
+}
+
+const debouncedSayHi = debounce(sayHi, 3000);
+
+/* tests */
+
+console.log(debouncedSayHi()); // -&gt; 'hi'
+
+setTimeout(() =&gt; {
+  console.log(debouncedSayHi());
+}, 2000); // -&gt; undefined
+
+setTimeout(() =&gt; {
+  console.log(debouncedSayHi());
+}, 4000); // -&gt; undefined
+
+setTimeout(() =&gt; {
+  console.log(debouncedSayHi());
+}, 8000); // -&gt; 'hi'
+
+// ?? using iterm to run file, there is a second pause in between when cb for last setTimeout? I would expect it to just cut out right there
+</code></pre>
+<h4>Key example: Seconds Clock</h4>
+<pre><code>class SecondClock {
+  constructor(cb) {
+    this.cb = cb;
+    this.secondsHand = 0;
+    this.clock = undefined;
+  }
+  start() {
+    this.clock = setInterval(() =&gt; {
+      this.cb(++this.secondsHand);
+    }, 1000);
+  }
+  reset() {
+    clearInterval(this.clock);
+  }
+}
+
+//tests
+
+const clock = new SecondClock((val) =&gt; {
+  console.log(val);
+});
+
+console.log(&quot;Started Clock.&quot;);
+clock.start();
+
+setTimeout(() =&gt; {
+  clock.reset();
+  console.log(&quot;Stopped Clock after 6 seconds.&quot;);
+}, 6000);
+</code></pre>
+<h3>Scope &amp; Closure</h3>
+<p><a href="https://github.com/DonaldBrower/js-hardparts-solutions/tree/master/closure">The solutions on GitHub</a></p>
+<h4>Key examples: Blackjack</h4>
+<pre><code>function blackjack(array) {
+  function dealer(a, b) {
+    let callCount = 0;
+    let cardCount = a + b;
+
+    function player() {
+      callCount++;
+
+      if (cardCount &gt; 21) {
+        return &quot;You are donezo!&quot;;
+      }
+
+      if (callCount === 1) {
+        return cardCount;
+      } else {
+        cardCount += array.shift();
+        if (cardCount &gt; 21) {
+          return &quot;Bust!&quot;;
+        } else {
+          return cardCount;
+        }
+      }
+    }
+    return player;
+  }
+  return dealer;
+}
+
+/*** DEALER ***/
+const deal = blackjack([
+  2, 6, 1, 7, 11, 4, 6, 3, 9, 8, 9, 3, 10, 4, 5, 3, 7, 4, 9, 6, 10, 11,
+]);
+
+/*** PLAYER 1 ***/
+const i_like_to_live_dangerously = deal(4, 5);
+console.log(i_like_to_live_dangerously()); // =&gt; should log 9
+console.log(i_like_to_live_dangerously()); // =&gt; should log 11
+console.log(i_like_to_live_dangerously()); // =&gt; should log 17
+console.log(i_like_to_live_dangerously()); // =&gt; should log 18
+console.log(i_like_to_live_dangerously()); // =&gt; should log 'bust'
+console.log(i_like_to_live_dangerously()); // =&gt; should log 'you are done!'
+console.log(i_like_to_live_dangerously()); // =&gt; should log 'you are done!'
+</code></pre>
+<h4>Key examples: Execution history</h4>
+<pre><code>function makeHistory(limit) {
+  const storage = [];
+  // let counter = 0;
+  function processString(str) {
+    if (storage.length &gt; limit) {
+      storage.shift();
+    }
+
+    if (str === &quot;undo&quot;) {
+      if (storage.length === 0) {
+        return &quot;Nothing to undo!&quot;;
+      }
+      console.log(storage);
+
+      let poppedEl = storage.pop();
+
+      console.log(storage);
+      return `${poppedEl} undone`;
+    } else {
+      storage.push(str);
+      return `${str} done`;
+    }
+  }
+
+  return processString;
+}
+
+// /*** Uncomment these to check your work! ***/
+const myActions = makeHistory(2);
+console.log(myActions(&quot;jump&quot;)); // =&gt; should log 'jump done'
+console.log(myActions(&quot;undo&quot;)); // =&gt; should log 'jump undone'
+console.log(myActions(&quot;walk&quot;)); // =&gt; should log 'walk done'
+console.log(myActions(&quot;code&quot;)); // =&gt; should log 'code done'
+console.log(myActions(&quot;pose&quot;)); // =&gt; should log 'pose done'
+console.log(myActions(&quot;undo&quot;)); // =&gt; should log 'pose undone'
+console.log(myActions(&quot;undo&quot;)); // =&gt; should log 'code undone'
+console.log(myActions(&quot;undo&quot;)); // =&gt; should log 'nothing to undo'
+</code></pre>
+<h3>Promises &amp; Async</h3>
+<p><a href="https://github.com/DonaldBrower/js-hardparts-solutions/tree/master/promise">The solutions on GitHub</a></p>
+<p>Key examples: using an API though promises:</p>
+<pre><code>const fakePeople = [
+  { name: &quot;Rudolph&quot;, hasPets: false, currentTemp: 98.6 },
+  { name: &quot;Zebulon&quot;, hasPets: true, currentTemp: 22.6 },
+  { name: &quot;Harold&quot;, hasPets: true, currentTemp: 98.3 },
+];
+
+const fakeAPICall = (i) =&gt; {
+  const returnTime = Math.floor(Math.random() * 1000);
+  return new Promise((resolve, reject) =&gt; {
+    if (i &gt;= 0 &amp;&amp; i &lt; fakePeople.length) {
+      setTimeout(() =&gt; resolve(fakePeople[i]), returnTime);
+    } else {
+      reject({ message: &quot;index out of range&quot; });
+    }
+  });
+};
+
+const getAllData = () =&gt; {
+  fakeAPICall(0).then((res) =&gt; console.log(res));
+  fakeAPICall(1).then((res) =&gt; console.log(res));
+  fakeAPICall(2).then((res) =&gt; console.log(res));
+};
+
+getAllData();
+
+</code></pre>
+<h3>Objects &amp; Object Oriented Programming</h3>
+<p><a href="https://github.com/DonaldBrower/js-hardparts-solutions/tree/master/oop">The solutions on GitHub</a></p>
+<p>Key examples: Using classes to create new objects and change their prototype chain:</p>
+<pre><code>class PersonClass {
+  constructor(name) {
+    this.name = name;
+  }
+
+  greet() {
+    console.log(&quot;hello&quot;);
+  }
+}
+
+// /********* Uncomment this line to test your work! *********/
+const george = new PersonClass();
+george.greet(); // -&gt; Logs 'hello'
+
+/*** CHALLENGE 9 ***/
+
+// add code here
+
+class DeveloperClass extends PersonClass {
+  introduce() {
+    console.log(`Hi! My name is ${this.name}`);
+  }
+}
+
+// /********* Uncomment these lines to test your work! *********/
+const thai = new DeveloperClass(&quot;Thai&quot;, 32);
+console.log(thai.name); // -&gt; Logs 'Thai'
+thai.introduce(); //-&gt; Logs 'Hello World, my name is Thai'
+</code></pre>
+<p>Key examples: creating new object types using constructor functions, and create them using the new keyword:</p>
+<pre><code>function PersonConstructor() {
+  this.greet = function () {
+    console.log(&quot;hello&quot;);
+  };
+  this.introduce = function () {
+    console.log(&quot;Hi, my name is &quot; + this.name);
+  };
+}
+
+// /********* Uncomment this line to test your work! *********/
+const simon = new PersonConstructor();
+simon.greet(); // -&gt; Logs 'hello'
+
+/*** CHALLENGE 6 ***/
+
+function personFromConstructor(name, age) {
+  const person = new PersonConstructor();
+  person.name = name;
+  person.age = age;
+  return person;
+}
+
+const mike = personFromConstructor(&quot;Mike&quot;, 30);
+
+// /********* Uncomment these lines to test your work! *********/
+console.log(mike.name); // -&gt; Logs 'Mike'
+console.log(mike.age); //-&gt; Logs 30
+mike.greet(); //-&gt; Logs 'hello'
+</code></pre>

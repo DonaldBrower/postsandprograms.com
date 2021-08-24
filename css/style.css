@@ -1,0 +1,526 @@
+/* 
+TABLE OF CONTENTS
+
+  1. resets & global defaults
+  2. index.html
+    2.1 mobile 
+    2.2 landscape mobile 
+    2.3 tablet
+    2.4 landscape tablet
+    2.5 small laptop
+    2.6 large laptop
+    2.7 small monitor
+    2.8 large monitor
+  3. <post>.html
+  4. about.html
+*/
+
+/* 1. resets & global defaults */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #d9afd9;
+  background-image: linear-gradient(
+    0deg,
+    rgba(217, 175, 217, 0.8) 0%,
+    rgba(151, 217, 225, 0.8) 100%
+  );
+
+  font-family: "Libre Baskerville", serif;
+  color: #1c1c1c;
+}
+p {
+  line-height: 1.35;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 100;
+}
+li {
+  list-style-type: none;
+}
+a:visited {
+  color: #0000ee;
+}
+
+/* default word wrapping for prsimjs pre and code blocks */
+code[class*="language-"],
+pre[class*="language-"] {
+  white-space: pre-wrap !important;
+}
+
+/* 2 index.html - base & mobile first*/
+.index {
+  background-color: #f6f6fd;
+
+  .hat {
+    width: 100vw;
+    height: 20rem;
+    background-image: url("./../images/sky.jpg");
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    background-size: cover;
+    color: white;
+
+    h1 {
+      margin: 3rem 0 0 0;
+      font-weight: 100;
+      font-size: 3rem;
+    }
+    nav {
+      display: flex;
+
+      p {
+        border: 1px solid white;
+
+        border-bottom: none;
+
+        padding: 0.4rem 1.2rem 1rem 0.5rem;
+        align-self: self-end;
+        font-size: larger;
+        font-size: 2rem;
+        margin: 0 12rem 0 7rem;
+      }
+      ul {
+        display: flex;
+        /* flex-direction: column; */
+        align-items: end;
+        margin: 0 0 0 1rem;
+
+        margin: 0 auto;
+
+        li {
+          margin: 0rem 9rem 0 0;
+          border: 1px solid;
+          border-bottom: 0;
+
+          padding: 0.5rem 1rem 0.5rem 1rem;
+          color: white;
+
+          /* some of the above styles should go into desktop only media queries */
+          margin: 0;
+          justify-content: space-between;
+          align-items: center;
+
+          a {
+            color: white;
+            /* goose */
+          }
+        }
+      }
+    }
+  }
+  .posts h2 {
+    margin: 2.8rem 1.1rem 0.175rem 0.8rem;
+    text-align: right;
+  }
+  .posts {
+    details {
+      summary {
+        &::marker {
+          content: "";
+        }
+        h2 {
+          &::before {
+            margin-right: 0.5rem;
+            content: "\21D3";
+          }
+        }
+      }
+
+      &[open] {
+        summary {
+          h2 {
+            &::before {
+              content: "\21D1";
+            }
+          }
+        }
+      }
+
+      ul {
+        display: flex;
+        flex-direction: column;
+
+        li {
+          background: rgb(239, 10, 98);
+          background: linear-gradient(
+            360deg,
+            rgba(239, 10, 98, 0.03) 26%,
+            rgba(237, 160, 200, 0.71) 100%
+          );
+          border-radius: 0.2rem;
+          list-style-type: none;
+          padding: 0.8rem 0.8rem 0.8rem 0.8rem;
+          margin: 0.8rem 0.8rem 0.175rem 0.8rem;
+
+          article {
+            display: flex;
+            flex-flow: column;
+            align-content: stetch;
+
+            a {
+              margin: 0 0 -0.4rem 0;
+              font-size: 1.6rem;
+            }
+            p {
+              margin: 1.1rem 0 0 0;
+            }
+            .article-date {
+              font-style: italic;
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+
+    section {
+      margin: 0 0.8rem;
+      margin-top: 4rem;
+      /* border: 1px solid black; */
+      h2 {
+        margin-top: 1.7rem;
+      }
+      ol {
+        margin: 1rem 0 0 0;
+        border-radius: 0.2rem;
+
+        & > li p {
+          text-align: right;
+          margin: 0 1.1rem 0 0;
+        }
+      }
+      ul {
+        /* background: rgb(239, 10, 98); */
+        background: rgba(67, 214, 230, 0.1) 100%;
+        /* background: linear-gradient(
+          360deg,
+          rgba(239, 10, 98, 0.03) 0%,
+          rgba(101, 118, 120, 0.8) 100%
+        ); */
+        li {
+          margin: 1rem 0.3rem 1rem 0.3rem;
+
+          a {
+            color: black;
+            text-decoration: none;
+          }
+        }
+        & > li {
+          text-align: left;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 420px) {
+  body {
+    .index {
+      box-sizing: content-box;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+
+      .hat {
+        text-align: end;
+
+        h1 {
+          margin: 0rem 0 0 0;
+          font-size: 4.5rem;
+
+          .highlight {
+            background-color: rgba(166, 208, 224, 0.4);
+            padding-bottom: -1.9rem;
+          }
+        }
+        nav {
+          align-self: flex-end;
+
+          ul {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 650px) {
+  body {
+    .index {
+      .hat {
+        h1 {
+          margin: 0.75rem 1.25rem 0 0;
+        }
+      }
+    }
+  }
+}
+
+/* .index styles for landscape mode on mobile phones (min-w: 750px) */
+@media screen and (min-width: 750px) {
+  .index {
+    max-width: 750px;
+    height: auto;
+    margin: 0 auto;
+
+    .hat {
+      max-width: 750px;
+
+      h1 {
+        margin: 0 auto;
+        font-size: 4rem;
+      }
+    }
+
+    .posts {
+      ul {
+        margin-top: 1.6rem;
+
+        li {
+          margin: 0.8rem 1.8rem 0.175rem 1.8rem;
+          margin-top: 0.5rem;
+          margin-bottom: 1.6rem;
+
+          article {
+            a {
+              font-size: 1.4rem;
+              margin-bottom: 0;
+            }
+            p {
+              margin-top: 0.7rem;
+              line-height: 1.44;
+              font-size: 1.2rem;
+            }
+            .article-date {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 3. <post>.html */
+
+.post {
+  background-color: #f6f6fd;
+
+  .hat {
+    background-image: url("./../images/laserlense.jpg");
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    background-size: cover;
+    color: white;
+  }
+
+  .text {
+    padding-bottom: 4rem;
+
+    h2 {
+      font-size: 2.827rem;
+      margin: 1rem;
+      /* text-decoration: underline; */
+    }
+    h3 {
+      font-size: 1.5rem;
+      margin: 1rem;
+    }
+    h4 {
+      font-size: 1.15rem;
+      margin: 1rem;
+    }
+    p {
+      line-height: 1.4;
+      font-size: 1.15rem;
+      margin: 1rem;
+    }
+    ul {
+      line-height: 1.4rem;
+      margin: 1rem;
+
+      li {
+        list-style-type: none;
+      }
+    }
+
+    img {
+      display: block;
+      width: 100vw;
+      margin-bottom: 1.8rem;
+    }
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .post {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    > nav {
+      margin: 0 0 0 0;
+      padding: 1rem 0 0 1.5rem;
+    }
+
+    .hat {
+      margin: 0 0 4rem 0;
+    }
+    .text {
+      margin: 0 0 4rem 0;
+
+      p,
+      ul,
+      li,
+      h2,
+      h3,
+      h4 {
+        margin: 2rem 12rem 0rem 5rem;
+      }
+      hr {
+        color: rgb(255, 255, 255);
+        margin-top: 2rem;
+        margin-right: 2rem;
+        margin-left: 2rem;
+      }
+      h2 {
+        margin-top: 0;
+        margin-bottom: 2rem;
+      }
+      h3,
+      h4 {
+        margin-bottom: 1rem;
+      }
+      p {
+        margin-top: 0;
+        margin-bottom: 2rem;
+      }
+      h2 {
+        /* font-size: 3.5rem; */
+        padding: 3rem 0 0 0;
+      }
+      li {
+        margin: 0.5rem 0 0 0;
+      }
+      img {
+        max-width: 800px;
+        margin-left: 5rem;
+        margin-bottom: 2.3rem;
+      }
+      ul {
+        border: 2px solid rgb(229, 229, 247);
+        border-radius: 3px;
+        padding: 1rem 1rem 1.5rem 1.25rem;
+      }
+      pre {
+        margin-bottom: 2.5rem;
+        margin-right: 7.5rem;
+        margin-left: 4.75rem;
+      }
+    }
+  }
+}
+
+/* contact.html styles */
+.contact {
+  form {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    max-width: 25rem;
+
+    label {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 5rem;
+    }
+  }
+}
+
+/* 4: about.html styles */
+
+.about {
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  .images {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    .imageholder {
+      width: 300px;
+      height: 300px;
+      background-size: cover;
+      border-radius: 1rem;
+      border: 5px solid aliceblue;
+      margin-bottom: 1rem;
+
+      &:nth-child(1) {
+        opacity: 0.85;
+        background-position-x: -91px;
+        /* transform: rotate(270deg); */
+        width: 80vw;
+        height: 80vw;
+      }
+
+      &:nth-child(2) {
+        background-position-x: -94px;
+        opacity: 0.85;
+
+        width: 80vw;
+        height: 80vw;
+      }
+
+      &:nth-child(3) {
+        z-index: 1;
+
+        opacity: 0.9;
+      }
+
+      &:nth-child(4) {
+        background-position-x: -48px;
+        background-position-y: 2px;
+        width: 80vw;
+        height: 80vw;
+        z-index: 2;
+      }
+    }
+  }
+
+  aside {
+    p {
+      margin-bottom: 1rem;
+    }
+  }
+}
