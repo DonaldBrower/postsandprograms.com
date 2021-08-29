@@ -1,0 +1,32 @@
+:root {
+  --color-main: #336699;
+  --color-secondary: #3399cc;
+  --color-third: #66ccff;
+  --color-fourth: #ccffff;
+}
+
+p {
+  color: var(--color-fourth);
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  grid-row-gap: 2em;
+  grid-column-gap: 2em;
+}
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 14em;
+  min-height: 5em;
+  background-image: linear-gradient(var(--color-main), var(--color-secondary));
+  box-shadow: 0 5px 4px -4px black;
+  border-radius: 0.2rem;
+  text-align: center;
+  vertical-align: center;
+}
+.box > p {
+  font-size: calc(1em * 2);
+}

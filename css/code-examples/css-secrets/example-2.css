@@ -1,0 +1,8 @@
+p,
+hr {
+  color: #660099;
+}
+hr {
+  height: 0.5em;
+  background: currentColor;
+}
