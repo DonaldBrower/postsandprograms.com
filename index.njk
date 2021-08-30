@@ -5,49 +5,51 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+
   <title>Posts and Programs</title>
   <link rel="stylesheet" href="./css/parsed.style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
   <div class="index">
     <main class="primary">
-    <section class="hat">
-      <h1>
-        <span class="highlight">posts</span> and
-        <span class="highlight">p</span>rograms
-      </h1>
-      <nav>
+      <section class="hat">
+        <h1>
+          <span class="highlight">posts</span> and
+          <span class="highlight">p</span>rograms
+        </h1>
+        <nav>
+          <ul>
+            <li><a href="">posts</a></li>
+            <li><a href="/contact">contact</a></li>
+            <li><a href="./about">about</a></li>
+          </ul>
+        </nav>
+      </section>
+      <section class="posts">
+
+
         <ul>
-          <li><a href="">posts</a></li>
-          <li><a href="/contact">contact</a></li>
-          <li><a href="./about">about</a></li>
-        </ul>
-      </nav>
-    </section>
-    <section class="posts">
-      <details open>
-        <summary>
-          <h2>recent posts</h2>
-        </summary>
-        <ul>
-	  {%- for post in collections.post | reverse -%}
+          {%- for post in collections.post | reverse -%}
           <li>
             <article>
-		    <a class="article-title" href="{{ post.url }}">{{ post.data.title }}</a>
-		    <p class="article-date">{{ post.data.date | DATE_HUGE }}</p>
-		    <p>{{ post.data.description }}</p>
+              <h3>
+                <a class="article-title" href="{{ post.url }}">{{ post.data.title }}</a>
+              </h3>
+              <p class="article-date">{{ post.data.date | DATE_HUGE }}</p>
+              <p>{{ post.data.description }}</p>
             </article>
           </li>
 
-	{%- endfor -%}
-	</ul> 
-      </details>
-    </section>
+          {%- endfor -%}
+        </ul>
+
+      </section>
     </main>
     <aside>
       <section>
@@ -95,4 +97,3 @@
 </body>
 
 </html>
-
