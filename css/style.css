@@ -148,6 +148,8 @@ li {
   ul {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+
+    padding-bottom: 44vh;
     li {
       background: rgb(239, 10, 98);
       background: linear-gradient(
@@ -226,6 +228,32 @@ li {
     }
   }
 }
+
+/* contact.html styles */
+.contact {
+  padding-top: 11vh;
+  padding-bottom: 44vh;
+
+  h1 {
+    text-align: center;
+    padding-bottom: 10vh;
+  }
+  
+  form {
+    display: flex;
+    margin: 0 auto;
+    flex-direction: column;
+    max-width: 25rem;
+    padding: 0 2vw;   
+
+    label {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 6vh;
+    }
+  }
+}
+
 @media screen and (min-width: 420px) {
   body {
     .index {
@@ -312,6 +340,10 @@ li {
 
 .post {
   background-color: #f6f6fd;
+  
+  header {
+    height: 4rem;
+  }
 
   .text {
     padding-bottom: 4rem;
@@ -420,21 +452,6 @@ li {
   }
 }
 
-/* contact.html styles */
-.contact {
-  form {
-    display: flex;
-    margin: 0 auto;
-    flex-direction: column;
-    max-width: 25rem;
-
-    label {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 5rem;
-    }
-  }
-}
 
 /* 4: about.html styles */
 
